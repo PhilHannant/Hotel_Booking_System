@@ -4,6 +4,8 @@ import java.util.Date
 
 import scala.collection.concurrent
 
+import bookingManagerExceptions.RoomNotAvailableException
+
 class BookingManagerSystem extends BookingManager  {
 
 
@@ -36,7 +38,17 @@ class BookingManagerSystem extends BookingManager  {
     * Add a booking for the given guest in the given room on the given
     * date. If the room is not available, throw a suitable Exception.
     */
-  override def addBooking(guest: String, room: Int, date: Date): Unit = ???
+  override def addBooking(guest: String, room: Int, date: Date): Unit = {
+    if (bookings.isEmpty) {
+      bookings.put(guest, Booking(room, date))
+    } else {
+      if (isRoomAvailable(room, date)) {
+        bookings.put(guest, Booking(room, date))
+      } else {
+        throw RoomNotAvailableException(s"Room $room not available")
+      }
+    }
+  }
 
 
   def roomIsValid(room: Int): Boolean = {

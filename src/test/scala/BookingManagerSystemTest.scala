@@ -1,7 +1,9 @@
 import java.text.SimpleDateFormat
 
+
 import org.scalatest._
-import system.BookingManagerSystem
+import system.{Booking, BookingManagerSystem}
+import bookingManagerExceptions.RoomNotAvailableException
 
 class BookingManagerSystemTest extends FlatSpec with Matchers{
 
@@ -16,6 +18,20 @@ class BookingManagerSystemTest extends FlatSpec with Matchers{
   "a isRoomAvailable" should "take an Int and a Date, then return a boolean" in {
     bookingSystem.isRoomAvailable(101, today) should be (true)
   }
+
+  "a addBooking" should "take a string, an Int and a Date, then add them to a TrieMap" in {
+    bookingSystem.isRoomAvailable(101, today) should be (true)
+    bookingSystem.addBooking("Smith", 101, today)
+    bookingSystem.isRoomAvailable(101, today) should be (false)
+  }
+
+  "a addBooking" should "throw an exception when a room is not available" in {
+    bookingSystem.addBooking("Smith", 101, today)
+    assertThrows[RoomNotAvailableException] {
+      bookingSystem.addBooking("Jones", 101, today)
+    }
+  }
+
 
 
 }
