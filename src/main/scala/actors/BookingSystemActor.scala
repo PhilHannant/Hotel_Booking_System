@@ -1,11 +1,33 @@
 package actors
 
 import akka.actor.{Actor, ActorLogging}
+import messages._
 import system.BookingManagerSystem
+
+import scala.util.{Failure, Success, Try}
 
 class BookingSystemActor extends Actor with ActorLogging {
 
-  val bookingSystem = BookingManagerSystem ()
+  val bookingSystem = BookingManagerSystem()
 
-  override def receive: Receive = ???
+  override def receive: Receive = {
+    case IsRoomAvailable(room, date) =>
+      Try(bookingSystem.isRoomAvailable(room, date))
+      match {
+        case Failure(e) => sender() ! NoRoomAvailable()
+        case Success(s) => sender() ! NoRoomAvailable()
+      }
+    case AddBooking(guest, room, date) =>
+      Try(bookingSystem.addBooking(guest, room, date))
+      match {
+        case Failure(e) => sender() ! ErrorOccurred()
+        case Success(t) => sender() ! BookingMade()
+      }
+    case GetAvailableRooms(date) =>
+      Try(bookingSystem.getAvailableRooms(date).nonEmpty)
+      match {
+        case Failure(e) => sender() ! ErrorOccurred()
+        case Success(t) => AvailableRooms(bookingSystem.getAvailableRooms(date))
+      }
+  }
 }
