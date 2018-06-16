@@ -26,19 +26,13 @@ class BookingManagerSystem extends BookingManager  {
     * date. If the room is not available, throw a suitable Exception.
     */
   override def addBooking(guest: String, room: Int, date: Date): Boolean = {
-    if (bookings.isEmpty) {
+    if (bookings.isEmpty || isRoomAvailable(room, date)) {
       bookings.put(guest, Booking(room, date))
       true
     } else {
-      if (isRoomAvailable(room, date)) {
-        bookings.put(guest, Booking(room, date))
-        true
-      } else {
-        throw RoomNotAvailableException(s"Room $room not available")
-      }
+      throw RoomNotAvailableException(s"Room $room not available")
     }
   }
-
 
   def roomIsValid(room: Int): Boolean = {
     rooms.contains(room)
