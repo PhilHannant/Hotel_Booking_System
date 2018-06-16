@@ -16,3 +16,8 @@ class BookingManagerSystem extends BookingManager  {
     */
   override def addBooking(guest: String, room: Int, date: Date): Unit = ???
 }
+
+
+object BookingManagerSystem {
+  def apply(): BookingManagerSystem = new BookingManagerSystem()
+}
