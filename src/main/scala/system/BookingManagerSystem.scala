@@ -14,7 +14,23 @@ class BookingManagerSystem extends BookingManager  {
     * Return true if there is no booking for the given room on the date,
     * otherwise false
     */
-  override def isRoomAvailable(room: Int, date: Date): Boolean = ???
+  override def isRoomAvailable(room: Int, date: Date): Boolean = {
+
+    def roomChecker(r: List[Booking], b: Booking): Boolean = r match {
+      case x :: xs => if (x == b) {
+        false
+      } else {
+        roomChecker(xs, b)
+      }
+      case Nil => true
+    }
+
+    if (roomIsValid(room)) {
+      roomChecker(bookings.values.toList, Booking(room, date))
+    } else {
+      false
+    }
+  }
 
   /**
     * Add a booking for the given guest in the given room on the given
