@@ -10,6 +10,15 @@ class BookingSystemActor extends Actor with ActorLogging {
 
   val bookingSystem = BookingManagerSystem()
 
+
+  override def preStart: Unit = {
+    println("BookingSystem: Starting")
+  }
+
+  override def postStop: Unit = {
+    println("BookingSystem: Shutting Down")
+  }
+
   override def receive: Receive = {
     case IsRoomAvailable(room, date) =>
       Try(bookingSystem.isRoomAvailable(room, date))
