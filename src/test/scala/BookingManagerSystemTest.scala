@@ -5,6 +5,8 @@ import org.scalatest._
 import system.{Booking, BookingManagerSystem}
 import bookingManagerExceptions.RoomNotAvailableException
 
+import scala.util.Try
+
 class BookingManagerSystemTest extends FlatSpec with Matchers{
 
   val bookingSystem = BookingManagerSystem()
@@ -20,16 +22,20 @@ class BookingManagerSystemTest extends FlatSpec with Matchers{
     bookingSystem.isRoomAvailable(101, today) should be (true)
   }
 
-  "addBooking" should "take a string, an Int and a Date, then add them to a TrieMap" in {
+  "addBooking1" should "take a string, an Int and a Date, then add them to a TrieMap" in {
     bookingSystem.isRoomAvailable(101, today) should be (true)
     bookingSystem.addBooking("Smith", 101, today)
     bookingSystem.isRoomAvailable(101, today) should be (false)
   }
 
-  "addBooking" should "throw an exception when a room is not available" in {
+  "addBooking2" should "throw an exception when a room is not available" in {
     assertThrows[RoomNotAvailableException] {
       bookingSystem.addBooking("Jones", 101, today)
     }
+  }
+
+  "addBooking3" should "take a string, an Int and a Date, then add them to a TrieMap" in {
+    bookingSystem.addBooking("Bonham", 201, tomorrow) should be (true)
   }
 
   "getAvailableRooms" should "take a date and return a sequence of Int" in {
@@ -38,5 +44,6 @@ class BookingManagerSystemTest extends FlatSpec with Matchers{
     bookingSystem.addBooking("Ali", 102, tomorrow)
     bookingSystem.getAvailableRooms(tomorrow) should contain theSameElementsAs expected
   }
+
 
 }
