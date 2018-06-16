@@ -2,7 +2,13 @@ package system
 
 import java.util.Date
 
+import scala.collection.concurrent
+
 class BookingManagerSystem extends BookingManager  {
+
+
+  var bookings = new concurrent.TrieMap[String, Booking]
+  val rooms: Set[Int] = Set(101, 102, 201, 203)
 
   /**
     * Return true if there is no booking for the given room on the date,
@@ -15,6 +21,12 @@ class BookingManagerSystem extends BookingManager  {
     * date. If the room is not available, throw a suitable Exception.
     */
   override def addBooking(guest: String, room: Int, date: Date): Unit = ???
+
+
+  def roomIsValid(room: Int): Boolean = {
+    rooms.contains(room)
+  }
+
 }
 
 

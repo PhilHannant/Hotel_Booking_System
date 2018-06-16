@@ -1,5 +1,17 @@
-import org.scalatest._
+import java.text.SimpleDateFormat
 
-class BookingSystemManagerTest extends FlatSpec with Matchers{
+import org.scalatest._
+import system.BookingManagerSystem
+
+class BookingManagerSystemTest extends FlatSpec with Matchers{
+
+  val bookingSystem = BookingManagerSystem()
+  val today = new SimpleDateFormat("yyyy-MM-dd").parse("2018-06-14")
+
+  "a isRoomValid" should "take an Int and return a Boolean" in {
+    bookingSystem.roomIsValid(101) should be (true)
+    bookingSystem.roomIsValid(20202) should be (false)
+  }
+
 
 }
