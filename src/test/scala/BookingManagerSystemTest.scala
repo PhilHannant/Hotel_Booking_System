@@ -26,7 +26,6 @@ class BookingManagerSystemTest extends FlatSpec with Matchers{
   }
 
   "a addBooking" should "throw an exception when a room is not available" in {
-    bookingSystem.addBooking("Smith", 101, today)
     assertThrows[RoomNotAvailableException] {
       bookingSystem.addBooking("Jones", 101, today)
     }
