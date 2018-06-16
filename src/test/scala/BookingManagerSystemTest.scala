@@ -39,7 +39,7 @@ class BookingManagerSystemTest extends FlatSpec with Matchers{
   }
 
   "getAvailableRooms" should "take a date and return a sequence of Int" in {
-    val expected: Seq[Int] = Seq(201, 203)
+    val expected: Seq[Int] = Seq(203)
     bookingSystem.addBooking("Smith", 101, tomorrow)
     bookingSystem.addBooking("Ali", 102, tomorrow)
     bookingSystem.getAvailableRooms(tomorrow) should contain theSameElementsAs expected
