@@ -13,5 +13,9 @@ class BookingManagerSystemTest extends FlatSpec with Matchers{
     bookingSystem.roomIsValid(20202) should be (false)
   }
 
+  "a BookingManagerSystem" should "take an Int and a Date, then return a boolean" in {
+    bookingSystem.isRoomAvailable(101, today) should be (true)
+  }
+
 
 }
