@@ -9,7 +9,7 @@ import bookingManagerExceptions.RoomNotAvailableException
 class BookingManagerSystem extends BookingManager  {
 
 
-  var bookings = new concurrent.TrieMap[String, Booking]
+  val bookings = new concurrent.TrieMap[String, Booking]
   val rooms: Set[Int] = Set(101, 102, 201, 203)
 
   /**
@@ -53,6 +53,14 @@ class BookingManagerSystem extends BookingManager  {
 
   def roomIsValid(room: Int): Boolean = {
     rooms.contains(room)
+  }
+
+  /**
+    * Return a list of all the available room numbers for the given date
+    */
+  override def getAvailableRooms(date: Date): Seq[Int] = {
+    val bookedRooms = bookings.values.filter(b => b.date == date).toSeq
+    rooms.filter(r => !bookedRooms.map(_.room).contains(r)).toSeq
   }
 
 }
