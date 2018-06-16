@@ -18,21 +18,10 @@ class BookingManagerSystem extends BookingManager  {
     * otherwise false
     */
   override def isRoomAvailable(room: Int, date: Date): Boolean = {
-
-    def roomChecker(r: List[Booking], b: Booking): Boolean = r match {
-      case x :: xs => if (x == b) {
-        false
-      } else {
-        roomChecker(xs, b)
-      }
-      case Nil => true
-    }
-
-    if (roomIsValid(room)) {
-      roomChecker(bookings.values.toList, Booking(room, date))
-    } else {
-      false
-    }
+    !bookings
+      .values
+      .toList
+      .contains(Booking(room, date))
   }
 
   /**
