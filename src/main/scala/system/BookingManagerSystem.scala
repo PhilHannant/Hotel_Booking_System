@@ -18,10 +18,7 @@ class BookingManagerSystem extends BookingManager  {
     * otherwise false
     */
   override def isRoomAvailable(room: Int, date: Date): Boolean = {
-    !bookings
-      .values
-      .toList
-      .contains(Booking(room, date))
+    !bookings.values.toList.contains(Booking(room, date))
   }
 
   /**
