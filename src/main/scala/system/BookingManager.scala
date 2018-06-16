@@ -13,4 +13,9 @@ trait BookingManager {
     * date. If the room is not available, throw a suitable Exception.
     */
   def addBooking(guest: String, room: Int, date: Date): Unit
+
+  /**
+    * Return a list of all the available room numbers for the given date
+    */
+  def getAvailableRooms(date: Date): Seq[Int]
 }
