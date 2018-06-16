@@ -5,7 +5,6 @@ import java.util.Date
 import scala.collection.concurrent
 import bookingManagerExceptions.RoomNotAvailableException
 
-import scala.util.{Failure, Success, Try}
 
 class BookingManagerSystem extends BookingManager  {
 
