@@ -2,15 +2,16 @@ import java.text.SimpleDateFormat
 
 import actors.BookingSystemActor
 import akka.actor.{ActorRef, ActorSystem, PoisonPill, Props}
-import messages.{AddBooking, IsRoomAvailable}
+import messages._
 import akka.util.Timeout
 import akka.pattern.ask
+import org.scalatest.{FlatSpec, Matchers}
 
 import scala.concurrent.duration._
 import scala.language.postfixOps
 import scala.concurrent.{Await, ExecutionContext, Future, duration}
 
-object BookingSystemActorTest extends App{
+class BookingSystemActorTest extends FlatSpec with Matchers {
 
   val system = ActorSystem("bookingSystem")
   val bookingSystemActor = system.actorOf(Props[BookingSystemActor], "bookingSystemActor")
@@ -19,17 +20,27 @@ object BookingSystemActorTest extends App{
 
   val bmActorRef: ActorRef = bookingSystemActor
 
-  val isRoomAvailable = bmActorRef ? IsRoomAvailable(101,today)
-  println(Await.result(isRoomAvailable, timeout.duration))
+  "isRoomAvailable" should "return a noRoomAvailable" in {
+    val isRoomAvailable = bmActorRef ? IsRoomAvailable(101,today)
+    val result = Await.result(isRoomAvailable, timeout.duration)
+    println(result)
+    result should be (NoRoomAvailable())
+  }
 
-  val addBookingSuccess = bmActorRef ? AddBooking("Smith",101,today)
-  println(Await.result(addBookingSuccess, timeout.duration))
+  "addBookingSuccess" should "return a BookingMade" in {
+    val addBookingSuccess = bmActorRef ? AddBooking("Smith",101,today)
+    val result = Await.result(addBookingSuccess, timeout.duration)
+    println(result)
+    result should be (BookingMade())
+  }
 
-  val addBookingFailure = bmActorRef ? AddBooking("Jones",101,today)
-  println(Await.result(addBookingFailure, timeout.duration))
+  "addBookingFailure" should "return an ErrorOccurred" in {
+    val addBookingFailure = bmActorRef ? AddBooking("Jones",101,today)
+    val result = Await.result(addBookingFailure, timeout.duration)
+    println(result)
+    result should be (ErrorOccurred())
+  }
 
-  bmActorRef ! PoisonPill
-  system.terminate()
 
 }
 

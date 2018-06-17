@@ -2,8 +2,6 @@ package system
 
 import java.util.Date
 
-import scala.util.Try
-
 trait BookingManager {
   /**
     * Return true if there is no booking for the given room on the date,
