@@ -44,10 +44,6 @@ class BookingManagerSystemTest extends FlatSpec with Matchers{
   }
 
   "getAvailableRooms2" should "take a date and return a sequence of Int" in {
-    val expected: Seq[Int] = Seq(203)
-    bookingSystem.addBooking("Smith", 101, tomorrow)
-    bookingSystem.addBooking("Ali", 102, tomorrow)
-    bookingSystem.addBooking("Jones", 201, tomorrow)
     bookingSystem.addBooking("Jackson", 203, tomorrow)
     assertThrows[NoRoomsAvailableException] {
       bookingSystem.getAvailableRooms(tomorrow)
