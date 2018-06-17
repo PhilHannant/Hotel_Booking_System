@@ -36,7 +36,7 @@ class BookingSystemActor extends Actor with ActorLogging {
       Try(bookingSystem.getAvailableRooms(date).nonEmpty)
       match {
         case Failure(e) => sender() ! ErrorOccurred()
-        case Success(t) => AvailableRooms(bookingSystem.getAvailableRooms(date))
+        case Success(t) => sender() ! AvailableRooms(bookingSystem.getAvailableRooms(date))
       }
   }
 }
