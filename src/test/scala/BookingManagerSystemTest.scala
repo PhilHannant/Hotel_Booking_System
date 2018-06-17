@@ -2,10 +2,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 import org.scalatest._
-import system.{Booking, BookingManagerSystem}
+import system.BookingManagerSystem
 import bookingManagerExceptions.RoomNotAvailableException
-
-import scala.util.Try
 
 class BookingManagerSystemTest extends FlatSpec with Matchers{
 
@@ -44,6 +42,7 @@ class BookingManagerSystemTest extends FlatSpec with Matchers{
     bookingSystem.addBooking("Ali", 102, tomorrow)
     bookingSystem.getAvailableRooms(tomorrow) should contain theSameElementsAs expected
   }
+
 
 
 }

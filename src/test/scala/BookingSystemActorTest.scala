@@ -2,7 +2,7 @@ import java.text.SimpleDateFormat
 
 import actors.BookingSystemActor
 import akka.actor.{ActorRef, ActorSystem, PoisonPill, Props}
-import messages._
+import messages.{AvailableRooms, _}
 import akka.util.Timeout
 import akka.pattern.ask
 import org.scalatest.{FlatSpec, Matchers}
@@ -20,27 +20,33 @@ class BookingSystemActorTest extends FlatSpec with Matchers {
 
   val bmActorRef: ActorRef = bookingSystemActor
 
-  "isRoomAvailable" should "return a noRoomAvailable" in {
+  "IsRoomAvailable" should "return a noRoomAvailable" in {
     val isRoomAvailable = bmActorRef ? IsRoomAvailable(101,today)
     val result = Await.result(isRoomAvailable, timeout.duration)
     println(result)
     result should be (NoRoomAvailable())
   }
 
-  "addBookingSuccess" should "return a BookingMade" in {
+  "AddBookingSuccess" should "return a BookingMade" in {
     val addBookingSuccess = bmActorRef ? AddBooking("Smith",101,today)
     val result = Await.result(addBookingSuccess, timeout.duration)
     println(result)
     result should be (BookingMade())
   }
 
-  "addBookingFailure" should "return an ErrorOccurred" in {
+  "AddBookingFailure" should "return an ErrorOccurred" in {
     val addBookingFailure = bmActorRef ? AddBooking("Jones",101,today)
     val result = Await.result(addBookingFailure, timeout.duration)
     println(result)
     result should be (ErrorOccurred())
   }
 
+  "GetAvailableRooms" should "return a AvailableRooms containing a sequence of rooms" in {
+    val getAvailableRooms = bmActorRef ? GetAvailableRooms(today)
+    val result = Await.result(getAvailableRooms, timeout.duration)
+    println(result)
+    result should be (AvailableRooms(Vector(102, 201, 203)))
+  }
 
 }
 
