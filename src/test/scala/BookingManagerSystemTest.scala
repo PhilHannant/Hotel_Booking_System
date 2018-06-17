@@ -3,7 +3,7 @@ import java.util.Date
 
 import org.scalatest._
 import system.BookingManagerSystem
-import bookingManagerExceptions.RoomNotAvailableException
+import bookingManagerExceptions.{NoRoomsAvailableException, RoomNotAvailableException}
 
 class BookingManagerSystemTest extends FlatSpec with Matchers{
 
@@ -43,6 +43,16 @@ class BookingManagerSystemTest extends FlatSpec with Matchers{
     bookingSystem.getAvailableRooms(tomorrow) should contain theSameElementsAs expected
   }
 
+  "getAvailableRooms2" should "take a date and return a sequence of Int" in {
+    val expected: Seq[Int] = Seq(203)
+    bookingSystem.addBooking("Smith", 101, tomorrow)
+    bookingSystem.addBooking("Ali", 102, tomorrow)
+    bookingSystem.addBooking("Jones", 201, tomorrow)
+    bookingSystem.addBooking("Jackson", 203, tomorrow)
+    assertThrows[NoRoomsAvailableException] {
+      bookingSystem.getAvailableRooms(tomorrow)
+    }
+  }
 
 
 }

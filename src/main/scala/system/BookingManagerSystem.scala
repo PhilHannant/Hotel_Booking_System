@@ -3,7 +3,7 @@ package system
 import java.util.Date
 
 import scala.collection.concurrent
-import bookingManagerExceptions.RoomNotAvailableException
+import bookingManagerExceptions.{NoRoomsAvailableException, RoomNotAvailableException}
 
 
 class BookingManagerSystem extends BookingManager  {
@@ -42,7 +42,12 @@ class BookingManagerSystem extends BookingManager  {
     */
   override def getAvailableRooms(date: Date): Seq[Int] = {
     val bookedRooms = bookings.values.filter(b => b.date == date).toSeq
-    rooms.filter(r => !bookedRooms.map(_.room).contains(r)).toSeq
+    val result = rooms.filter(r => !bookedRooms.map(_.room).contains(r)).toSeq
+    if(!result.isEmpty){
+      result
+    } else {
+      throw NoRoomsAvailableException(s"No rooms available for $date")
+    }
   }
 
 }
