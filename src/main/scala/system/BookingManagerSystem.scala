@@ -43,7 +43,7 @@ class BookingManagerSystem extends BookingManager  {
   override def getAvailableRooms(date: Date): Seq[Int] = {
     val bookedRooms = bookings.values.filter(b => b.date == date).toSeq
     val result = rooms.filter(r => !bookedRooms.map(_.room).contains(r)).toSeq
-    if(!result.isEmpty){
+    if(result.nonEmpty){
       result
     } else {
       throw NoRoomsAvailableException(s"No rooms available for $date")
