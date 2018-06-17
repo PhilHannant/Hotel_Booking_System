@@ -16,6 +16,7 @@ class BookingSystemActorTest extends FlatSpec with Matchers {
   val system = ActorSystem("bookingSystem")
   val bookingSystemActor = system.actorOf(Props[BookingSystemActor], "bookingSystemActor")
   val today = new SimpleDateFormat("yyyy-MM-dd").parse("2018-06-14")
+  val tomorrow  = new SimpleDateFormat("yyyy-MM-dd").parse("2018-06-15")
   implicit val timeout = Timeout(5 seconds)
 
   val bmActorRef: ActorRef = bookingSystemActor
@@ -46,6 +47,17 @@ class BookingSystemActorTest extends FlatSpec with Matchers {
     val result = Await.result(getAvailableRooms, timeout.duration)
     println(result)
     result should be (AvailableRooms(Vector(102, 201, 203)))
+  }
+
+  "Empty GetAvailableRooms" should "return an ErrorOccurred" in {
+    bmActorRef ? AddBooking("Jones",101,tomorrow)
+    bmActorRef ? AddBooking("Smith",102,tomorrow)
+    bmActorRef ? AddBooking("Mottaleb",201,tomorrow)
+    bmActorRef ? AddBooking("Davis",203,tomorrow)
+    val getAvailableRooms = bmActorRef ? GetAvailableRooms(tomorrow)
+    val result = Await.result(getAvailableRooms, timeout.duration)
+    println(result)
+    result should be (ErrorOccurred())
   }
 
 }
